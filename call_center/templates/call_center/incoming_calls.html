@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Call-Center</title>
+    <style>
+      h1 {
+        text-align: center;
+        /*background-color: #ffd7d7;*/
+        /*padding: 10px 100px;*/
+        }
+      .main-table {
+        width: 1100px;
+        margin: 0 auto;
+        text-align: center;
+        }
+      .countLines {
+          counter-reset: trCount;
+          }
+      .countLines tr td:first-child:before {
+          position:relative;
+          counter-increment: trCount;
+          content:counter(trCount);
+        }
+      .form-search {
+        width: 400px;
+        margin: 0 auto;
+        text-align: center;
+      }
+    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+  </head>
+
+  <body>
+    <h1>Call-Center Золотой Телец</h1>
+    <br><br><br>
+    <div class="form-search">
+      <form method="post" class="mb-3">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {{ form.date_finish.errors }}
+        <button type="submit" class="btn btn-outline-primary">Поиск</button>
+      </form>
+    </div>
+    <br><br>
+
+    {%if clients %}
+      <div class="main-table">
+        <p>Всего номеров: {{ total_info.total_numbers }}</p>
+        <p>Количество уникальных номеров: {{ total_info.unique_numbers }}</p><br>
+        <table class="table table-hover tcont countLines">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">Номер клиента</th>
+              <th scope="col">Номер оператора</th>
+              <th scope="col">Ф.И.О. оператора</th>
+              <th scope="col">Время входящего вызова</th>
+              <th scope="col">Дата входящего вызова</th>
+              <th scope="col">Продолжительность вызова</th>
+              <th scope="col">Время ожидания на линии</th>
+            </tr>
+          </thead>
+
+          {% for client in clients %}
+            <tbody>
+              <tr>
+                <td></td>
+                <td>+7{{ client.number_of_client }}</td>
+                <td>{{ client.number_of_employee }}</td>
+                <td>{{ client.operator_full_name }}</td>
+                <td>{{ client.start_time }}</td>
+                <td>{{ client.call_date }}</td>
+                <td>{{ client.talk_duration }}</td>
+                <td>{{ client.duration }}</td>
+              </tr>
+            </tbody>
+          {% endfor %}
+        </table>
+      </div>
+      {% else %}
+      <h1 class="no_calls"> Еще нет ни одного звонка за сегодня!</h1>
+    {% endif %}
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+  </body>
+</html>
