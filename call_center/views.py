@@ -1,5 +1,4 @@
 from django.http import HttpResponse
-
 import requests
 from django.shortcuts import render
 from call_center.forms import DateForm
