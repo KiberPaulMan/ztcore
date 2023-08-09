@@ -4,23 +4,23 @@ services:
   web:
     build: .
     command: gunicorn ztcore.wsgi:application --bind 0.0.0.0:8000
-    volumes:
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+#    volumes:
+#      - static_volume:/usr/src/app/static
+#      - media_volume:/usr/src/app/media
     expose:
       - 8000
     env_file:
       - ./.env
   nginx:
     build: ./nginx
-    volumes:
-      - static_volume:/usr/src/app/static
-      - media_volume:/usr/src/app/media
+#    volumes:
+#      - static_volume:/usr/src/app/static
+#      - media_volume:/usr/src/app/media
     ports:
       - 80:80
     depends_on:
       - web
 
-volumes:
-  static_volume:
-  media_volume:
+#volumes:
+#  static_volume:
+#  media_volume:
