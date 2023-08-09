@@ -37,9 +37,8 @@
     <br><br><br>
     <div class="form-search">
       <form method="post" class="mb-3">
-        {% csrf_token %}
         {{ form.as_p }}
-        {{ form.date_finish.errors }}
+        {% csrf_token %}
         <button type="submit" class="btn btn-outline-primary">Поиск</button>
       </form>
     </div>

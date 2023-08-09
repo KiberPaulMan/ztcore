@@ -81,6 +81,7 @@ def get_statistics_of_incoming_calls(request):
             date_start = form.cleaned_data['date_start']
             date_finish = form.cleaned_data['date_finish']
             incoming_calls = form.cleaned_data['incoming_calls']
+            print(date_start, date_finish, incoming_calls)
 
             payload['Begin'] = date_start + 'T00:00:00'
             payload['End'] = date_finish + 'T23:59:59'
