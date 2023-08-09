@@ -27,7 +27,7 @@ def get_data_from_api(url, payload):
     }
     data = requests.get(url, headers=headers, params=payload)
     # print('DATA = ', data)
-    return [data.json(), data.status_code] if data.status_code == 200 else [None, data.status_code]
+    return data.json() if data.status_code == 200 else None
 
 
 def get_clients_data(data, incoming_calls):
@@ -35,8 +35,8 @@ def get_clients_data(data, incoming_calls):
     total_numbers = []
     total_info = {}
 
-    if data[0]:
-        for item in data[0]['items']:
+    if data:
+        for item in data['items']:
             client = {
                 'number_of_client': item['an'],
                 'number_of_employee': item['cn'],
@@ -52,7 +52,6 @@ def get_clients_data(data, incoming_calls):
         total_info = {
             'total_numbers': len(total_numbers),
             'unique_numbers': len(set(total_numbers)),
-            'status_code': data[1]
         }
 
         clients.sort(key=lambda dictionary: dictionary['start_time'])
@@ -82,7 +81,6 @@ def get_statistics_of_incoming_calls(request):
             date_start = form.cleaned_data['date_start']
             date_finish = form.cleaned_data['date_finish']
             incoming_calls = form.cleaned_data['incoming_calls']
-            print(date_start, date_finish, incoming_calls)
 
             payload['Begin'] = date_start + 'T00:00:00'
             payload['End'] = date_finish + 'T23:59:59'
