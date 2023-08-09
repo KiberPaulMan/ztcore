@@ -1,3 +1,5 @@
+from django.http import HttpResponse
+
 import requests
 from django.shortcuts import render
 from call_center.forms import DateForm
@@ -10,6 +12,10 @@ CHOICES_FULL_NAME_OPERATOR = {
     '89835458998': 'Граверы',
     None: None,
 }
+
+
+def index(request):
+    return HttpResponse('Server is worked!')
 
 
 def get_data_from_api(url, payload):
