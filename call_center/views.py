@@ -1,8 +1,7 @@
-from django.http import HttpResponse
 import requests
+from django.conf import settings
 from django.shortcuts import render
 from call_center.forms import DateForm
-from ztcore.settings import MTS_API_KEY
 
 CHOICES_FULL_NAME_OPERATOR = {
     '89130856155': 'Пастухова Ю.',
@@ -13,20 +12,15 @@ CHOICES_FULL_NAME_OPERATOR = {
 }
 
 
-def index(request):
-    return HttpResponse('Server is worked!')
-
-
 def get_data_from_api(url, payload):
     """
     Получить статистику входящих звонков за определенный период.
     По умолчанию период это сегодняшний день.
     """
     headers = {
-        'Authorization': MTS_API_KEY
+        'Authorization': settings.MTS_API_KEY
     }
     data = requests.get(url, headers=headers, params=payload)
-    # print('DATA = ', data)
     return data.json() if data.status_code == 200 else None
 
 
