@@ -31,17 +31,18 @@ def get_clients_data(data, incoming_calls):
 
     if data:
         for item in data['items']:
-            client = {
-                'number_of_client': item['an'],
-                'number_of_employee': item['cn'],
-                'operator_full_name': CHOICES_FULL_NAME_OPERATOR[item['cn']],
-                'start_time': item['startTime'][11:],
-                'call_date': item['startTime'][:10],
-                'duration': item['duration'] - item['talkDuration'],
-                'talk_duration': item['talkDuration'],
-            }
-            total_numbers.append(item['an'])
-            clients.append(client)
+            if item['log'] != 'denyservice':
+                client = {
+                    'number_of_client': item['an'],
+                    'number_of_employee': item['cn'],
+                    'operator_full_name': CHOICES_FULL_NAME_OPERATOR[item['cn']],
+                    'start_time': item['startTime'][11:],
+                    'call_date': item['startTime'][:10],
+                    'duration': item['duration'] - item['talkDuration'],
+                    'talk_duration': item['talkDuration'],
+                }
+                total_numbers.append(item['an'])
+                clients.append(client)
 
         total_info = {
             'total_numbers': len(total_numbers),
