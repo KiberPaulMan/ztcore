@@ -48,7 +48,7 @@ def get_clients_data(data, incoming_calls):
             'unique_numbers': len(set(total_numbers)),
         }
 
-        clients.sort(key=lambda dictionary: dictionary['start_time'])
+        clients.sort(key=lambda dictionary: dictionary['call_date'])
 
         if incoming_calls == 'unanswered_calls':
             clients = [client for client in clients if client['number_of_employee'] is None]
