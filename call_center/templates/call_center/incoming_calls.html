@@ -11,7 +11,7 @@
         /*padding: 10px 100px;*/
         }
       .main-table {
-        width: 1100px;
+        width: 1300px;
         margin: 0 auto;
         text-align: center;
         }
@@ -59,6 +59,8 @@
               <th scope="col">Дата входящего вызова</th>
               <th scope="col">Продолжительность вызова</th>
               <th scope="col">Время ожидания на линии</th>
+              <th scope="col">Статус</th>
+              <th scope="col">Комментарий</th>
             </tr>
           </thead>
 
@@ -73,6 +75,8 @@
                 <td>{{ client.call_date }}</td>
                 <td>{{ client.talk_duration }}</td>
                 <td>{{ client.duration }}</td>
+                <td>{{ client.status }}</td>
+                <td>{{ client.comment }}</td>
               </tr>
             </tbody>
           {% endfor %}
