@@ -1,4 +1,5 @@
 from django import forms
+from .models import Comment
 
 
 class DateForm(forms.Form):
@@ -17,3 +18,9 @@ class DateForm(forms.Form):
                                        choices=CALL_CHOICES,
                                        initial=CALL_CHOICES[0],
                                        label='')
+
+
+class CommentForm(forms.ModelForm):
+    class Neta:
+        model = Comment
+        fields = ['status', 'title']

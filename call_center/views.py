@@ -3,7 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 from django.conf import settings
 from django.shortcuts import render
-from call_center.forms import DateForm
+from call_center.forms import DateForm, CommentForm
 from .models import IncomingCall, Comment
 
 CHOICES_FULL_NAME_OPERATOR = {
@@ -124,3 +124,15 @@ def get_list_dates(date_start, date_finish):
     end = datetime.strptime(date_finish, '%Y-%m-%d')
 
     return [(start + timedelta(days=x)).strftime('%Y-%m-%d') for x in range(0, (end - start).days + 1)]
+
+
+def get_comment(request, call_obj):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.incoming_call = call_obj
+            new_comment.save()
+    else:
+        form = CommentForm()
+    return form
