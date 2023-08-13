@@ -27,6 +27,18 @@ def get_data_from_api(url, payload):
     return data.json() if data.status_code == 200 else None
 
 
+def get_comment(request, call_obj):
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            new_comment = form.save(commit=False)
+            new_comment.incoming_call = call_obj
+            new_comment.save()
+    else:
+        form = CommentForm()
+    return form
+
+
 def get_clients_data(data, incoming_calls, date_start, date_finish):
     clients = []
     total_numbers = []
@@ -124,15 +136,3 @@ def get_list_dates(date_start, date_finish):
     end = datetime.strptime(date_finish, '%Y-%m-%d')
 
     return [(start + timedelta(days=x)).strftime('%Y-%m-%d') for x in range(0, (end - start).days + 1)]
-
-
-def get_comment(request, call_obj):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.incoming_call = call_obj
-            new_comment.save()
-    else:
-        form = CommentForm()
-    return form
