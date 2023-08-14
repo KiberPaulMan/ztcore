@@ -28,6 +28,12 @@
         margin: 0 auto;
         text-align: center;
       }
+      .inputRow {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
 
@@ -85,7 +91,7 @@
                 <td>{{ client.duration }}</td>
                 <td>
                   <form method="post" onsubmit='event.preventDefault(); onSubmitForm(this)' class="form-row" id="commentForm">
-                    <div class="row">
+                    <div class="inputRow">
                       <input type="hidden" class="form-control" name="incoming_call" value={{ client.client_id }}>
                       <div class="col">
                         {{ client.comment_form.status }}
