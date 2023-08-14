@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from datetime import timedelta
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render
 from call_center.forms import DateForm, CommentForm
 from .models import IncomingCall, Comment
 
@@ -16,10 +16,6 @@ CHOICES_FULL_NAME_OPERATOR = {
 
 
 def get_data_from_api(url, payload):
-    """
-    Получить статистику входящих звонков за определенный период.
-    По умолчанию период это сегодняшний день.
-    """
     headers = {
         'Authorization': settings.MTS_API_KEY
     }
@@ -29,14 +25,12 @@ def get_data_from_api(url, payload):
 
 def get_comment(request):
     form = CommentForm(request.POST)
-    print('get_comment request = ', request.POST)
-    print('get_comment!!')
+
     if form.is_valid():
         comment = Comment.objects.get(incoming_call__pk=int(request.POST.get('incoming_call')))
         comment.status = form.cleaned_data['status']
         comment.title = form.cleaned_data['title']
         comment.save()
-        print('get_comment make SAVE!')
 
 
 def get_clients_data(incoming_calls, date_start, date_finish):
@@ -69,8 +63,6 @@ def get_clients_data(incoming_calls, date_start, date_finish):
             'unique_numbers': len(set(total_numbers)),
         }
 
-        # clients.sort(key=lambda dictionary: dictionary['call_date'])
-
         if incoming_calls == 'unanswered_calls':
             clients = [client for client in clients if client['number_of_employee'] is None]
         elif incoming_calls == 'answered_calls':
@@ -91,7 +83,6 @@ def get_statistics_of_incoming_calls(request):
     }
 
     if request.method == 'POST':
-        print('REQUEST = ', request.POST)
 
         if 'incoming_call' in request.POST:
             get_comment(request)

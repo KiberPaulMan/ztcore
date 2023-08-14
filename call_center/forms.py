@@ -12,16 +12,13 @@ class DateForm(forms.Form):
     date_start = forms.CharField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                  label='Дата начала',
                                  initial=dt.date(dt.now()),)
-                                 # required=False)
     date_finish = forms.CharField(widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
                                   label='Дата окончания',
                                   initial=dt.date(dt.now()),)
-                                  # required=False)
     incoming_calls = forms.ChoiceField(widget=forms.RadioSelect,
                                        choices=CALL_CHOICES,
                                        initial=CALL_CHOICES[0],
                                        label='',)
-                                       # required=False)
 
 
 class CommentForm(forms.ModelForm):
