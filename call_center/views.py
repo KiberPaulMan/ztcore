@@ -2,7 +2,7 @@ import requests
 from datetime import datetime
 from datetime import timedelta
 from django.conf import settings
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from call_center.forms import DateForm, CommentForm
 from .models import IncomingCall, Comment
 
@@ -27,19 +27,19 @@ def get_data_from_api(url, payload):
     return data.json() if data.status_code == 200 else None
 
 
-def get_comment(request, call_obj):
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.incoming_call = call_obj
-            new_comment.save()
-    else:
-        form = CommentForm()
-    return form
+def get_comment(request):
+    form = CommentForm(request.POST)
+    print('get_comment request = ', request.POST)
+    print('get_comment!!')
+    if form.is_valid():
+        comment = Comment.objects.get(incoming_call__pk=int(request.POST.get('incoming_call')))
+        comment.status = form.cleaned_data['status']
+        comment.title = form.cleaned_data['title']
+        comment.save()
+        print('get_comment make SAVE!')
 
 
-def get_clients_data(data, incoming_calls, date_start, date_finish):
+def get_clients_data(incoming_calls, date_start, date_finish):
     clients = []
     total_numbers = []
     total_info = {}
@@ -58,8 +58,8 @@ def get_clients_data(data, incoming_calls, date_start, date_finish):
                     'call_date': obj.startTime[:10],
                     'duration': obj.duration - obj.talkDuration,
                     'talk_duration': obj.talkDuration,
-                    'status': obj.comments.status,
-                    'comment': obj.comments.title,
+                    'comment_form': CommentForm(instance=Comment.objects.get(incoming_call=obj)),
+                    'client_id': obj.pk,
                 }
                 total_numbers.append(obj.an)
                 clients.append(client)
@@ -91,7 +91,13 @@ def get_statistics_of_incoming_calls(request):
     }
 
     if request.method == 'POST':
+        print('REQUEST = ', request.POST)
+
+        if 'incoming_call' in request.POST:
+            get_comment(request)
+
         form = DateForm(request.POST)
+
         if form.is_valid():
             date_start = form.cleaned_data['date_start']
             date_finish = form.cleaned_data['date_finish']
@@ -102,10 +108,11 @@ def get_statistics_of_incoming_calls(request):
 
             data = get_data_from_api(url, payload)
             save_data_from_api_to_db(data, date_start, date_finish)
-            clients_data = get_clients_data(data, incoming_calls, date_start, date_finish)
+            clients_data = get_clients_data(incoming_calls, date_start, date_finish)
 
     else:
         form = DateForm()
+
     return render(request,
                   'call_center/incoming_calls.html',
                   context={'form': form,

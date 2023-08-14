@@ -11,7 +11,7 @@
         /*padding: 10px 100px;*/
         }
       .main-table {
-        width: 1300px;
+        width: 65%;
         margin: 0 auto;
         text-align: center;
         }
@@ -30,6 +30,15 @@
       }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+
+    <script>
+      function onSubmitForm(e) {
+        const formData = new FormData(e);
+        fetch(e.action, {method: 'post', body: formData})
+                .catch(e => console.log('Send form error ', e));
+      }
+    </script>
+
   </head>
 
   <body>
@@ -59,8 +68,7 @@
               <th scope="col">Дата входящего вызова</th>
               <th scope="col">Продолжительность вызова</th>
               <th scope="col">Время ожидания на линии</th>
-              <th scope="col">Статус</th>
-              <th scope="col">Комментарий</th>
+              <th scope="col">Статус и Комментарии</th>
             </tr>
           </thead>
 
@@ -75,8 +83,23 @@
                 <td>{{ client.call_date }}</td>
                 <td>{{ client.talk_duration }}</td>
                 <td>{{ client.duration }}</td>
-                <td>{{ client.status }}</td>
-                <td>{{ client.comment }}</td>
+                <td>
+                  <form method="post" onsubmit='event.preventDefault(); onSubmitForm(this)' class="form-row" id="commentForm">
+                    <div class="row">
+                      <input type="hidden" class="form-control" name="incoming_call" value={{ client.client_id }}>
+                      <div class="col">
+                        {{ client.comment_form.status }}
+                      </div>
+                      <div class="col">
+                        {{ client.comment_form.title }}
+                      </div>
+                      <div class="col">
+                        <button type="submit" class="btn btn-outline-primary">Save</button>
+                      </div>
+                    </div>
+                    {% csrf_token %}
+                  </form>
+                </td>
               </tr>
             </tbody>
           {% endfor %}
