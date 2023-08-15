@@ -23,7 +23,7 @@ class DateForm(forms.Form):
 
 class CommentForm(forms.ModelForm):
     title = forms.CharField(
-        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'size': '100'}),
+        widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
         required=False)
     status = forms.CharField(
         widget=forms.Select(attrs={'class': 'form-select'}, choices=Comment.STATUS_CHOICES))

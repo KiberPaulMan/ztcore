@@ -9,7 +9,7 @@
         text-align: center;
         }
       .main-table {
-        width: 65%;
+        width: 70%;
         margin: 0 auto;
         text-align: center;
         }
@@ -31,6 +31,12 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+      }
+      #td-comment-form {
+        width: 32%;
+      }
+      .col {
+        margin-right: 6px;
       }
     </style>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
@@ -87,7 +93,7 @@
                 <td>{{ client.call_date }}</td>
                 <td>{{ client.talk_duration }}</td>
                 <td>{{ client.duration }}</td>
-                <td>
+                <td id="td-comment-form">
                   <form method="post" onsubmit='event.preventDefault(); onSubmitForm(this)' class="form-row" id="commentForm">
                     <div class="inputRow">
                       <input type="hidden" class="form-control" name="incoming_call" value={{ client.client_id }}>
@@ -97,9 +103,9 @@
                       <div class="col">
                         {{ client.comment_form.title }}
                       </div>
-                      <div class="col">
+
                         <button type="submit" class="btn btn-outline-primary">Save</button>
-                      </div>
+
                     </div>
                     {% csrf_token %}
                   </form>

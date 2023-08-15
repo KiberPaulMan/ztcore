@@ -24,9 +24,11 @@ class IncomingCall(models.Model):
 
 class Comment(models.Model):
     STATUS_CHOICES = (
-        ('status_1', 'Статус 1'),
-        ('status_2', 'Статус 2'),
-        ('status_3', 'Статус 3'),
+        ('status_1', 'Не обработан'),
+        ('status_2', 'Обработан'),
+        ('status_3', 'Не дозвонились'),
+        ('status_4', 'Перезвонить'),
+        ('status_5', 'Спам'),
     )
     incoming_call = models.OneToOneField(IncomingCall, on_delete=models.CASCADE, related_name='comments')
     title = models.TextField(blank=True, null=True, verbose_name='comment')
