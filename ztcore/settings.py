@@ -143,3 +143,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 MTS_API_KEY = env('MTS_API_KEY')
 
+LOGOUT_REDIRECT_URL = 'login'

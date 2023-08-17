@@ -3,6 +3,7 @@ from datetime import datetime
 from datetime import timedelta
 from django.conf import settings
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from call_center.forms import DateForm, CommentForm
 from .models import IncomingCall, Comment
 
@@ -71,6 +72,7 @@ def get_clients_data(incoming_calls, date_start, date_finish):
     return {'clients': clients, 'total_info': total_info}
 
 
+@login_required(login_url='login')
 def get_statistics_of_incoming_calls(request):
     clients_data = {
         'clients': None,
@@ -134,3 +136,5 @@ def get_list_dates(date_start, date_finish):
     end = datetime.strptime(date_finish, '%Y-%m-%d')
 
     return [(start + timedelta(days=x)).strftime('%Y-%m-%d') for x in range(0, (end - start).days + 1)]
+
+

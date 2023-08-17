@@ -31,3 +31,10 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['status', 'title']
+
+
+class LoginForm(forms.Form):
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text'}),
+                               label='Login')
+    password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password'}),
+                               label='Password')
