@@ -45,6 +45,13 @@ def get_clients_data(incoming_calls, date_start, date_finish):
     if client_data:
         for obj in client_data:
             if obj.log != 'denyservice':
+
+                comment = Comment.objects.get(incoming_call=obj)
+
+                if obj.cn:
+                    comment.status = Comment.STATUS_CHOICES[1]
+                    comment.save()
+
                 client = {
                     'number_of_client': obj.an,
                     'number_of_employee': obj.cn,
@@ -53,7 +60,7 @@ def get_clients_data(incoming_calls, date_start, date_finish):
                     'call_date': obj.startTime[:10],
                     'duration': obj.duration - obj.talkDuration,
                     'talk_duration': obj.talkDuration,
-                    'comment_form': CommentForm(instance=Comment.objects.get(incoming_call=obj)),
+                    'comment_form': CommentForm(instance=comment),
                     'client_id': obj.pk,
                 }
                 total_numbers.append(obj.an)
