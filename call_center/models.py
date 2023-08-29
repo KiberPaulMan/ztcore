@@ -10,7 +10,7 @@ class IncomingCall(models.Model):
     duration = models.PositiveSmallIntegerField(verbose_name='total call duration')
     talkDuration = models.PositiveSmallIntegerField(verbose_name='call duration')
     recDuration = models.PositiveSmallIntegerField(verbose_name='call recording')
-    log = models.CharField(max_length=255, verbose_name='log')
+    log = models.CharField(max_length=5000, verbose_name='log')
     result = models.PositiveIntegerField()
     subResult = models.IntegerField()
     outbounds = models.CharField(max_length=255, blank=True, null=True)
