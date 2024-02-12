@@ -85,7 +85,7 @@ def get_statistics_of_incoming_calls(request):
         'clients': None,
         'total_info': None
     }
-    url = 'https://aa.mts.ru/api/v5/Cdr/GetByTimePaging'
+    url = 'https://aa.mts.ru/api/v5/Cdr/GetByTime'
     payload = {
         'Phone': 8002509921,
         'Limit': 2000,
