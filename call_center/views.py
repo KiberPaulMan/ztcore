@@ -124,7 +124,7 @@ def get_statistics_of_incoming_calls(request):
 def save_data_from_api_to_db(data, date_start, date_finish):
     seq_id = get_seq_id_incoming_calls_from_db(date_start, date_finish)
     if data:
-        for item in data['items']:
+        for item in data:
             if item['seqId'] not in seq_id:
                 incoming_call = IncomingCall.objects.create(**item)
                 Comment.objects.create(incoming_call=incoming_call)
